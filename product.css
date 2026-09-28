@@ -1237,7 +1237,7 @@
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: 16px;
-  box-shadow: 0 8px 28px rgba(15, 61, 36, 0.06);
+  box-shadow: 0 8px 28px rgba(63, 58, 54, 0.06);
 
   display: flex;
   flex-direction: column;
@@ -3504,7 +3504,7 @@
   background: rgba(255, 255, 255, 0.92);
   color: var(--dark-green);
   pointer-events: none;
-  box-shadow: 0 4px 16px rgba(15, 61, 36, 0.12);
+  box-shadow: 0 4px 16px rgba(63, 58, 54, 0.12);
 }
 
 .pdp-zoom-hint svg {
@@ -3689,7 +3689,7 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: rgba(15, 61, 36, 0.72);
+  background: rgba(63, 58, 54, 0.72);
 }
 
 .pdp-lightbox[hidden] {

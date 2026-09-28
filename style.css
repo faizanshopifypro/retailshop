@@ -42,18 +42,18 @@ input {
    2. VARIABLES
    ========================================================== */
 :root {
-  --dark-green: #0F3D24;
-  --primary-green: #1F7A45;
-  --primary-green-dark: #145C34;
-  --light-green: #E7F0DD;
-  --cream: #FBF6EB;
+  --dark-green: #3F3A36;
+  --primary-green: #4A4541;
+  --primary-green-dark: #2C2926;
+  --light-green: #F1EDE8;
+  --cream: #F8F6F3;
   --white: #FFFFFF;
-  --black: #0F3D24;
-  --text-dark: #24291F;
-  --text-muted: #6B7280;
-  --orange: #E8743C;
-  --pink: #E8743C;
-  --border: #E7E2D6;
+  --black: #3F3A36;
+  --text-dark: #2F2C2A;
+  --text-muted: #7C756F;
+  --orange: #C45C3E;
+  --pink: #C45C3E;
+  --border: #E5E0DA;
 
   --font-heading: "Poppins", Arial, sans-serif;
   --font-body: "Inter", Arial, sans-serif;
@@ -137,7 +137,7 @@ body {
    ========================================================== */
 .announcement-bar {
   background: var(--dark-green);
-  color: #FBF6EB;
+  color: #F8F6F3;
   font-size: 0.76rem;
 }
 
