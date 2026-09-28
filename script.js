@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".wishlist-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       btn.classList.toggle("active");
-      btn.style.color = btn.classList.contains("active") ? "#E8743C" : "";
+      btn.style.color = btn.classList.contains("active") ? "var(--orange)" : "";
     });
   });
 
@@ -98,4 +98,94 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const slider = document.getElementById("reviewsSlider");
+  const prevBtn = document.getElementById("reviewPrev");
+  const nextBtn = document.getElementById("reviewNext");
+  const progress = document.getElementById("reviewsProgress");
+
+  if (!slider || !prevBtn || !nextBtn || !progress) return;
+
+  const cards = slider.querySelectorAll(".review-card");
+  let currentIndex = 0;
+
+  function getVisibleCards() {
+    if (window.innerWidth <= 600) return 1;
+    if (window.innerWidth <= 900) return 2;
+    return 3;
+  }
+
+  function getMaxIndex() {
+    return Math.max(0, cards.length - getVisibleCards());
+  }
+
+  function updateSlider() {
+    const maxIndex = getMaxIndex();
+    if (currentIndex > maxIndex) currentIndex = maxIndex;
+    if (!cards.length) return;
+
+    const cardWidth = cards[0].offsetWidth;
+    const gap = parseFloat(window.getComputedStyle(slider).gap) || 0;
+    slider.style.transform = "translateX(-" + currentIndex * (cardWidth + gap) + "px)";
+
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.disabled = currentIndex === maxIndex;
+
+    if (maxIndex === 0) {
+      progress.style.width = "100%";
+      progress.style.transform = "translateX(0)";
+      return;
+    }
+
+    const progressWidth = 100 / (maxIndex + 1);
+    progress.style.width = progressWidth + "%";
+    progress.style.transform = "translateX(" + currentIndex * 100 + "%)";
+  }
+
+  nextBtn.addEventListener("click", function () {
+    if (currentIndex < getMaxIndex()) {
+      currentIndex++;
+      updateSlider();
+    }
+  });
+
+  prevBtn.addEventListener("click", function () {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateSlider();
+    }
+  });
+
+  window.addEventListener("resize", updateSlider);
+  updateSlider();
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const faqItems = document.querySelectorAll(".faq-item");
+
+  faqItems.forEach(function (item) {
+    const question = item.querySelector(".faq-question");
+    const icon = item.querySelector(".faq-icon");
+    if (!question) return;
+
+    question.addEventListener("click", function () {
+      const isActive = item.classList.contains("active");
+
+      faqItems.forEach(function (faq) {
+        faq.classList.remove("active");
+        const faqQuestion = faq.querySelector(".faq-question");
+        const faqIcon = faq.querySelector(".faq-icon");
+        if (faqQuestion) faqQuestion.setAttribute("aria-expanded", "false");
+        if (faqIcon) faqIcon.textContent = "+";
+      });
+
+      if (!isActive) {
+        item.classList.add("active");
+        question.setAttribute("aria-expanded", "true");
+        if (icon) icon.textContent = "−";
+      }
+    });
+  });
 });
