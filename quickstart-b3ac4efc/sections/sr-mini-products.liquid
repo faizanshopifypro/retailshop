@@ -1,0 +1,44 @@
+{{ 'sr-product.css' | asset_url | stylesheet_tag }}
+{% render 'sr-theme-tokens' %}
+
+{%- assign collection = section.settings.collection -%}
+
+<div class="sr-theme" {{ section.shopify_attributes }}>
+  <section class="mini-products-section">
+    <div class="mini-products-container">
+      {% if collection != blank %}
+        {% for product in collection.products limit: section.settings.limit %}
+          {% assign variant = product.selected_or_first_available_variant %}
+          <article class="mini-product-card">
+            <a href="{{ product.url }}" class="mini-product-image">
+              {% if product.featured_media %}
+                {{ product.featured_media | image_url: width: 600 | image_tag: loading: 'lazy', alt: product.title }}
+              {% endif %}
+            </a>
+            <div class="mini-product-content">
+              <h3><a href="{{ product.url }}">{{ product.title }}</a></h3>
+              <p class="mini-product-price">{{ variant.price | money }}</p>
+              <a href="{{ product.url }}" class="mini-product-button">{{ section.settings.button_label }}</a>
+            </div>
+          </article>
+        {% endfor %}
+      {% else %}
+        <p class="sr-empty">Select a collection for mini products.</p>
+      {% endif %}
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "SR Mini products",
+  "tag": "section",
+  "class": "sr-section",
+  "settings": [
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "limit", "min": 1, "max": 4, "step": 1, "default": 2, "label": "Products" },
+    { "type": "text", "id": "button_label", "label": "Button", "default": "SHOP NOW" }
+  ],
+  "presets": [{ "name": "SR Mini products", "category": "ShopRetail" }]
+}
+{% endschema %}

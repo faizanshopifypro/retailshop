@@ -1,0 +1,47 @@
+{{ 'sr-home.css' | asset_url | stylesheet_tag }}
+{% render 'sr-theme-tokens' %}
+
+<div class="sr-theme" {{ section.shopify_attributes }}>
+  <section class="benefits">
+    <div class="container">
+      <div class="benefits-box">
+        {% for block in section.blocks %}
+          <div class="benefit-item" {{ block.shopify_attributes }}>
+            <strong>{{ block.settings.title }}</strong>
+            <p>{{ block.settings.text }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "SR Benefits",
+  "tag": "section",
+  "class": "sr-section",
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Free Shipping" },
+        { "type": "text", "id": "text", "label": "Text", "default": "On orders $50+" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SR Benefits",
+      "category": "ShopRetail",
+      "blocks": [
+        { "type": "benefit", "settings": { "title": "Free Shipping", "text": "On orders $50+" } },
+        { "type": "benefit", "settings": { "title": "Easy Returns", "text": "30-day hassle-free returns" } },
+        { "type": "benefit", "settings": { "title": "Secure Checkout", "text": "Encrypted payments" } },
+        { "type": "benefit", "settings": { "title": "Support", "text": "We're here to help" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

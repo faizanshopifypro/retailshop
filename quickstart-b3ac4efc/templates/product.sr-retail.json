@@ -1,0 +1,258 @@
+/*
+ * ------------------------------------------------------------
+ * ShopRetail product template — assign per product in admin
+ * as "sr-retail". Does not replace default product.json.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "sr_product_main": {
+      "type": "sr-product-main",
+      "blocks": {
+        "benefit_1": {
+          "type": "benefit",
+          "settings": {
+            "title": "Daily Support",
+            "text": "Made to complement your everyday routine."
+          }
+        },
+        "benefit_2": {
+          "type": "benefit",
+          "settings": {
+            "title": "Quality Ingredients",
+            "text": "Carefully selected ingredients with purpose."
+          }
+        },
+        "benefit_3": {
+          "type": "benefit",
+          "settings": {
+            "title": "Simple To Use",
+            "text": "An easy addition to your daily routine."
+          }
+        },
+        "benefit_4": {
+          "type": "benefit",
+          "settings": {
+            "title": "Made With Care",
+            "text": "Thoughtfully created with quality in mind."
+          }
+        },
+        "acc_1": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Benefits",
+            "content": "<p>Designed to support your daily routine with a thoughtfully selected combination of quality ingredients.</p>"
+          }
+        },
+        "acc_2": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Ingredients",
+            "content": "<p>Made with carefully selected ingredients. See the complete ingredient list on the product packaging.</p>"
+          }
+        },
+        "acc_3": {
+          "type": "accordion",
+          "settings": {
+            "heading": "How To Use",
+            "content": "<p>Follow the recommended serving instructions on the product packaging.</p>"
+          }
+        },
+        "acc_4": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Shipping & Returns",
+            "content": "<p>Orders are carefully packed and shipped. Review your store shipping and return policy for terms.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "benefit_1",
+        "benefit_2",
+        "benefit_3",
+        "benefit_4",
+        "acc_1",
+        "acc_2",
+        "acc_3",
+        "acc_4"
+      ],
+      "settings": {
+        "label": "DAILY WELLNESS",
+        "show_rating": true,
+        "rating": "4.9",
+        "review_count": "328 Reviews",
+        "show_pack_options": true,
+        "pack1_title": "Buy 1",
+        "pack1_subtitle": "One-time purchase",
+        "pack2_title": "Buy 2",
+        "pack2_subtitle": "Free shipping included",
+        "show_trust_row": true
+      }
+    },
+    "sr_mini": {
+      "type": "sr-mini-products",
+      "settings": {
+        "limit": 2,
+        "button_label": "SHOP NOW"
+      }
+    },
+    "sr_reviews": {
+      "type": "sr-reviews",
+      "blocks": {
+        "r1": {
+          "type": "review",
+          "settings": {
+            "quote": "I noticed a difference within the first week. The quality is amazing.",
+            "name": "Sarah M.",
+            "meta": "Verified Customer",
+            "verified": true
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "quote": "The product feels premium and shipping was incredibly fast.",
+            "name": "James R.",
+            "meta": "Verified Customer",
+            "verified": true
+          }
+        },
+        "r3": {
+          "type": "review",
+          "settings": {
+            "quote": "Beautiful packaging and a really great experience from start to finish.",
+            "name": "Ava L.",
+            "meta": "Verified Customer",
+            "verified": true
+          }
+        }
+      },
+      "block_order": ["r1", "r2", "r3"],
+      "settings": {
+        "eyebrow": "CUSTOMER REVIEWS",
+        "heading": "LOVED BY\nTHOUSANDS.",
+        "rating": "4.9",
+        "rating_caption": "Based on 328 reviews"
+      }
+    },
+    "sr_results": {
+      "type": "sr-results",
+      "blocks": {
+        "s1": { "type": "stat", "settings": { "stat": "94%", "text": "saw visible improvement within 2 weeks" } },
+        "s2": { "type": "stat", "settings": { "stat": "89%", "text": "would recommend to a friend" } },
+        "s3": { "type": "stat", "settings": { "stat": "4.9", "text": "average customer rating" } }
+      },
+      "block_order": ["s1", "s2", "s3"],
+      "settings": {
+        "heading": "Real results"
+      }
+    },
+    "sr_everyday_1": {
+      "type": "sr-everyday",
+      "blocks": {
+        "p1": {
+          "type": "point",
+          "settings": {
+            "title": "Thoughtfully Formulated",
+            "text": "Every ingredient has a purpose, carefully selected to support your everyday routine."
+          }
+        },
+        "p2": {
+          "type": "point",
+          "settings": {
+            "title": "Simple & Effective",
+            "text": "A straightforward approach without unnecessary ingredients or complicated routines."
+          }
+        },
+        "p3": {
+          "type": "point",
+          "settings": {
+            "title": "Made For Real Life",
+            "text": "Easy to add to your day, wherever life takes you."
+          }
+        }
+      },
+      "block_order": ["p1", "p2", "p3"],
+      "settings": {
+        "reverse": false,
+        "heading": "MADE FOR YOUR",
+        "heading_italic": "EVERYDAY",
+        "intro": "Thoughtfully designed to fit seamlessly into your daily routine, with quality ingredients and a purpose behind every detail."
+      }
+    },
+    "sr_everyday_2": {
+      "type": "sr-everyday",
+      "blocks": {
+        "p1": {
+          "type": "point",
+          "settings": {
+            "title": "Honest materials",
+            "text": "Premium finishes and durable construction you notice from the first use."
+          }
+        },
+        "p2": {
+          "type": "point",
+          "settings": {
+            "title": "Made to last",
+            "text": "Designed for daily wear, with details that hold up long after the first season."
+          }
+        }
+      },
+      "block_order": ["p1", "p2"],
+      "settings": {
+        "reverse": true,
+        "heading": "QUALITY YOU",
+        "heading_italic": "CAN FEEL",
+        "intro": "Materials chosen for how they wear, not just how they look. Built to last through the days you actually live."
+      }
+    },
+    "sr_blog": {
+      "type": "sr-product-blog",
+      "settings": {
+        "heading": "KNOW MORE. LIVE BETTER.",
+        "subheading": "Helpful insights, expert advice, and simple ways to get more from your daily routine.",
+        "limit": 3
+      }
+    },
+    "sr_faq": {
+      "type": "sr-faq",
+      "blocks": {
+        "f1": {
+          "type": "item",
+          "settings": {
+            "question": "How to apply?",
+            "answer": "Apply a small amount and blend evenly using your fingers, brush, or sponge."
+          }
+        },
+        "f2": {
+          "type": "item",
+          "settings": {
+            "question": "How long does it last?",
+            "answer": "The lightweight formula is designed for long-lasting everyday wear."
+          }
+        },
+        "f3": {
+          "type": "item",
+          "settings": {
+            "question": "Can I return my order?",
+            "answer": "Yes. Eligible products can be returned according to our return policy."
+          }
+        }
+      },
+      "block_order": ["f1", "f2", "f3"],
+      "settings": {
+        "heading": "Frequently asked questions"
+      }
+    }
+  },
+  "order": [
+    "sr_product_main",
+    "sr_mini",
+    "sr_reviews",
+    "sr_results",
+    "sr_everyday_1",
+    "sr_everyday_2",
+    "sr_blog",
+    "sr_faq"
+  ]
+}

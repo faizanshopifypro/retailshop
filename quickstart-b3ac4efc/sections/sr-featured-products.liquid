@@ -1,0 +1,72 @@
+{{ 'sr-home.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'sr-home.js' | asset_url }}" defer></script>
+{% render 'sr-theme-tokens' %}
+
+{%- assign collection = section.settings.collection -%}
+
+<div class="sr-theme" {{ section.shopify_attributes }}>
+  <section class="featured">
+    <div class="container">
+      <div class="featured-header">
+        {% if section.settings.heading != blank %}
+          <h2 class="section-heading"><span class="line"></span>{{ section.settings.heading }}<span class="line"></span></h2>
+        {% endif %}
+        {% if section.settings.view_all_label != blank %}
+          <a href="{{ section.settings.view_all_link | default: collection.url }}" class="view-all">{{ section.settings.view_all_label }}</a>
+        {% endif %}
+      </div>
+      <div class="product-grid">
+        {% if collection != blank %}
+          {% for product in collection.products limit: section.settings.products_to_show %}
+            {% assign variant = product.selected_or_first_available_variant %}
+            <article class="product-card">
+              <a href="{{ product.url }}" class="product-media">
+                {% if product.featured_media %}
+                  {{ product.featured_media | image_url: width: 800 | image_tag: loading: 'lazy', alt: product.title }}
+                {% else %}
+                  {{ 'product-1' | placeholder_svg_tag }}
+                {% endif %}
+                {% if variant.compare_at_price > variant.price %}
+                  {% assign save_pct = variant.compare_at_price | minus: variant.price | times: 100.0 | divided_by: variant.compare_at_price | round %}
+                  <span class="badge sale">-{{ save_pct }}%</span>
+                {% endif %}
+              </a>
+              <button type="button" class="wishlist-btn" aria-label="Add to wishlist">♥</button>
+              <div class="product-info">
+                <h3 class="product-title"><a href="{{ product.url }}">{{ product.title }}</a></h3>
+                <div class="product-price">
+                  <span class="price">{{ variant.price | money }}</span>
+                  {% if variant.compare_at_price > variant.price %}
+                    <span class="compare">{{ variant.compare_at_price | money }}</span>
+                  {% endif %}
+                </div>
+                {% if section.settings.show_quick_add and variant.available %}
+                  <button type="button" class="btn-add-cart" data-variant-id="{{ variant.id }}">Add to Cart</button>
+                {% endif %}
+              </div>
+            </article>
+          {% endfor %}
+        {% else %}
+          <p class="sr-empty">Select a collection in the theme editor.</p>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "SR Featured products",
+  "tag": "section",
+  "class": "sr-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Featured Products" },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "products_to_show", "min": 2, "max": 12, "step": 1, "default": 6, "label": "Products to show" },
+    { "type": "text", "id": "view_all_label", "label": "View all label", "default": "View all products" },
+    { "type": "url", "id": "view_all_link", "label": "View all link" },
+    { "type": "checkbox", "id": "show_quick_add", "label": "Show add to cart", "default": true }
+  ],
+  "presets": [{ "name": "SR Featured products", "category": "ShopRetail" }]
+}
+{% endschema %}

@@ -1,0 +1,60 @@
+{{ 'sr-home.css' | asset_url | stylesheet_tag }}
+{{ 'sr-product.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'sr-home.js' | asset_url }}" defer></script>
+{% render 'sr-theme-tokens' %}
+
+<div class="sr-theme" {{ section.shopify_attributes }}>
+  <section class="faq-section" id="faq">
+    <div class="faq-container">
+      {% if section.settings.heading != blank %}
+        <h2>{{ section.settings.heading }}</h2>
+      {% endif %}
+      <div class="faq-list">
+        {% for block in section.blocks %}
+          <div class="faq-item" {{ block.shopify_attributes }}>
+            <button type="button" class="faq-question" aria-expanded="false">
+              <span>{{ block.settings.question }}</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>{{ block.settings.answer }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "SR FAQ",
+  "tag": "section",
+  "class": "sr-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Frequently asked questions" }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "FAQ item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Where do you ship to?" },
+        { "type": "textarea", "id": "answer", "label": "Answer", "default": "We ship to supported destinations worldwide." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SR FAQ",
+      "category": "ShopRetail",
+      "blocks": [
+        { "type": "item", "settings": { "question": "Where do you ship to?", "answer": "We ship to supported destinations worldwide. Availability and delivery times are shown during checkout." } },
+        { "type": "item", "settings": { "question": "How long does delivery take?", "answer": "Most orders leave the same or next business day." } },
+        { "type": "item", "settings": { "question": "Is shipping free?", "answer": "Yes. Orders $50 and over include free shipping." } },
+        { "type": "item", "settings": { "question": "Can I return my order?", "answer": "Yes. Eligible products can be returned within 30 days." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,54 @@
+{{ 'sr-product.css' | asset_url | stylesheet_tag }}
+{% render 'sr-theme-tokens' %}
+
+{%- assign blog = blogs[section.settings.blog] -%}
+
+<div class="sr-theme" {{ section.shopify_attributes }}>
+  <section class="product-blog-section">
+    <div class="product-blog-container">
+      <div class="product-blog-header">
+        <h2>{{ section.settings.heading }}</h2>
+        {% if section.settings.subheading != blank %}
+          <p>{{ section.settings.subheading }}</p>
+        {% endif %}
+      </div>
+      <div class="product-blog-grid">
+        {% if blog != blank %}
+          {% for article in blog.articles limit: section.settings.limit %}
+            <article class="product-blog-card">
+              <a href="{{ article.url }}" class="product-blog-image">
+                {% if article.image %}
+                  {{ article.image | image_url: width: 900 | image_tag: loading: 'lazy', alt: article.title }}
+                {% endif %}
+              </a>
+              <div class="product-blog-content">
+                {% if article.tags.size > 0 %}
+                  <a href="{{ blog.url }}/tagged/{{ article.tags.first | handle }}" class="product-blog-category">{{ article.tags.first }}</a>
+                {% endif %}
+                <h3><a href="{{ article.url }}">{{ article.title }}</a></h3>
+                <p>{{ article.excerpt_or_content | strip_html | truncate: 120 }}</p>
+              </div>
+            </article>
+          {% endfor %}
+        {% else %}
+          <p class="sr-empty">Select a blog in the theme editor.</p>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "SR Product blog",
+  "tag": "section",
+  "class": "sr-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "KNOW MORE. LIVE BETTER." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Helpful insights, expert advice, and simple ways to get more from your daily routine." },
+    { "type": "blog", "id": "blog", "label": "Blog" },
+    { "type": "range", "id": "limit", "min": 1, "max": 6, "step": 1, "default": 3, "label": "Articles" }
+  ],
+  "presets": [{ "name": "SR Product blog", "category": "ShopRetail" }]
+}
+{% endschema %}

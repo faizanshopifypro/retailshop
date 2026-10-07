@@ -1,0 +1,58 @@
+{{ 'sr-home.css' | asset_url | stylesheet_tag }}
+{% render 'sr-theme-tokens' %}
+
+<div class="sr-theme" {{ section.shopify_attributes }}>
+  <section class="delivery-process">
+    <div class="container">
+      {% if section.settings.heading != blank %}
+        <h2 class="section-heading"><span class="line"></span>{{ section.settings.heading }}<span class="line"></span></h2>
+      {% endif %}
+      {% if section.settings.subheading != blank %}
+        <p class="delivery-intro">{{ section.settings.subheading }}</p>
+      {% endif %}
+      <div class="delivery-grid">
+        {% for block in section.blocks %}
+          <div class="delivery-step" {{ block.shopify_attributes }}>
+            <div class="delivery-step-num">{{ forloop.index }}</div>
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.text }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "SR Delivery process",
+  "tag": "section",
+  "class": "sr-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "From our warehouse to your door" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Free shipping on orders $50+. Most orders leave the same or next business day." }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Order placed" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Checkout is encrypted. You get a confirmation as soon as your order is in." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SR Delivery process",
+      "category": "ShopRetail",
+      "blocks": [
+        { "type": "step", "settings": { "title": "Order placed", "text": "Checkout is encrypted. You get a confirmation as soon as your order is in." } },
+        { "type": "step", "settings": { "title": "Packed with care", "text": "Each item is checked and packed so it arrives ready to use." } },
+        { "type": "step", "settings": { "title": "Shipped fast", "text": "Carriers pick up on schedule. Tracking is sent as soon as the label prints." } },
+        { "type": "step", "settings": { "title": "At your door", "text": "Most destinations receive orders within a few business days." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

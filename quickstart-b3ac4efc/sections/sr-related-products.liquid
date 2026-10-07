@@ -1,0 +1,56 @@
+{{ 'sr-home.css' | asset_url | stylesheet_tag }}
+{{ 'sr-product.css' | asset_url | stylesheet_tag }}
+{% render 'sr-theme-tokens' %}
+
+{%- assign collection = section.settings.collection -%}
+{%- if collection == blank and product.collections.size > 0 -%}
+  {%- assign collection = product.collections.first -%}
+{%- endif -%}
+
+<div class="sr-theme" {{ section.shopify_attributes }}>
+  <section class="featured related-products-section">
+    <div class="container">
+      {% if section.settings.heading != blank %}
+        <h2 class="section-heading"><span class="line"></span>{{ section.settings.heading }}<span class="line"></span></h2>
+      {% endif %}
+      <div class="product-grid">
+        {% if collection != blank %}
+          {% assign shown = 0 %}
+          {% for related in collection.products %}
+            {% if related.id != product.id and shown < section.settings.limit %}
+              {% assign shown = shown | plus: 1 %}
+              {% assign variant = related.selected_or_first_available_variant %}
+              <article class="product-card">
+                <a href="{{ related.url }}" class="product-media">
+                  {% if related.featured_media %}
+                    {{ related.featured_media | image_url: width: 800 | image_tag: loading: 'lazy', alt: related.title }}
+                  {% endif %}
+                </a>
+                <div class="product-info">
+                  <h3 class="product-title"><a href="{{ related.url }}">{{ related.title }}</a></h3>
+                  <div class="product-price"><span class="price">{{ variant.price | money }}</span></div>
+                </div>
+              </article>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <p class="sr-empty">Select a collection for related products.</p>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "SR Related products",
+  "tag": "section",
+  "class": "sr-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "You may also like" },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "limit", "min": 2, "max": 8, "step": 1, "default": 4, "label": "Products" }
+  ],
+  "presets": [{ "name": "SR Related products", "category": "ShopRetail" }]
+}
+{% endschema %}

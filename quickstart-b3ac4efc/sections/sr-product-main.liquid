@@ -1,0 +1,325 @@
+{{ 'sr-home.css' | asset_url | stylesheet_tag }}
+{{ 'sr-product.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'sr-home.js' | asset_url }}" defer></script>
+<script src="{{ 'sr-product.js' | asset_url }}" defer></script>
+{% render 'sr-theme-tokens' %}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign product_form_id = 'sr-product-form-' | append: section.id
+  assign compare = current_variant.compare_at_price
+  assign price = current_variant.price
+  assign save_pct = 0
+  if compare > price
+    assign save_pct = compare | minus: price | times: 100.0 | divided_by: compare | round
+  endif
+-%}
+
+<div
+  class="sr-theme"
+  data-sr-product
+  data-money-format="{{ shop.money_format | escape }}"
+  {{ section.shopify_attributes }}
+>
+  <script type="application/json" data-sr-product-json>
+    [
+      {%- for variant in product.variants -%}
+        {
+          "id": {{ variant.id | json }},
+          "title": {{ variant.title | json }},
+          "available": {{ variant.available | json }},
+          "price": {{ variant.price | json }},
+          "compare_at_price": {{ variant.compare_at_price | json }},
+          "options": {{ variant.options | json }},
+          "featured_image": {% if variant.featured_media %}{"id":{{ variant.featured_media.id | json }},"src":{{ variant.featured_media | image_url: width: 1200 | json }}}{% else %}null{% endif %}
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  </script>
+
+  <section class="pdp-main" id="product-information" data-sr-product-info>
+    <div class="pdp-container">
+      <div class="pdp-gallery" id="pdpGallery" data-sr-gallery tabindex="0">
+        <div class="pdp-main-image-wrap">
+          {% if save_pct > 0 %}
+            <span class="pdp-sale-badge" data-sr-sale-badge>SAVE {{ save_pct }}%</span>
+          {% else %}
+            <span class="pdp-sale-badge" data-sr-sale-badge hidden></span>
+          {% endif %}
+          <button type="button" class="pdp-zoom-trigger" data-sr-zoom aria-label="Zoom product image">
+            {% if product.featured_media %}
+              <img
+                id="pdpMainImage"
+                data-sr-main-image
+                src="{{ product.featured_media | image_url: width: 1200 }}"
+                alt="{{ product.featured_media.alt | default: product.title | escape }}"
+                width="1200"
+                height="1200"
+              >
+            {% else %}
+              {{ 'product-1' | placeholder_svg_tag: 'pdp-main-image' }}
+              <img data-sr-main-image src="" alt="" hidden>
+            {% endif %}
+          </button>
+        </div>
+        {% if product.media.size > 1 %}
+          <div class="pdp-thumbnails" role="list">
+            {% for media in product.media %}
+              <button
+                type="button"
+                class="pdp-thumbnail{% if forloop.first %} active{% endif %}"
+                aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+                data-sr-thumb
+                data-media-id="{{ media.id }}"
+                data-image="{{ media | image_url: width: 1200 }}"
+              >
+                {{ media | image_url: width: 300 | image_tag: loading: 'lazy', alt: media.alt | default: product.title }}
+              </button>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="pdp-information">
+        <nav class="pdp-breadcrumb" aria-label="Breadcrumb">
+          <a href="{{ routes.root_url }}">Home</a>
+          <span aria-hidden="true">/</span>
+          {% if collection %}
+            <a href="{{ collection.url }}">{{ collection.title }}</a>
+            <span aria-hidden="true">/</span>
+          {% elsif product.collections.first %}
+            <a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a>
+            <span aria-hidden="true">/</span>
+          {% endif %}
+          <span aria-current="page">{{ product.title }}</span>
+        </nav>
+
+        {% if section.settings.label != blank %}
+          <div class="pdp-product-label">{{ section.settings.label }}</div>
+        {% endif %}
+        <h1 class="pdp-title">{{ product.title }}</h1>
+
+        {% if section.settings.show_rating %}
+          <a href="#reviews" class="pdp-rating" aria-label="{{ section.settings.rating }} out of 5. Jump to reviews">
+            <span class="pdp-stars" aria-hidden="true">★★★★★</span>
+            <span>{{ section.settings.rating }}</span>
+            <span class="pdp-review-count">{{ section.settings.review_count }}</span>
+          </a>
+        {% endif %}
+
+        <div class="pdp-price-wrapper">
+          <span class="pdp-price" data-sr-price>{{ current_variant.price | money }}</span>
+          <span class="pdp-compare-price" data-sr-compare {% if compare <= price %}hidden{% endif %}>
+            {% if compare > price %}{{ compare | money }}{% endif %}
+          </span>
+          <span class="pdp-save" data-sr-save {% if save_pct == 0 %}hidden{% endif %}>
+            {% if save_pct > 0 %}SAVE {{ save_pct }}%{% endif %}
+          </span>
+        </div>
+
+        {% if product.description != blank %}
+          <div class="pdp-description">{{ product.description | strip_html | truncate: 180 }}</div>
+        {% endif %}
+
+        {% if section.blocks.size > 0 %}
+          <div class="pdp-benefits">
+            {% for block in section.blocks %}
+              {% if block.type == 'benefit' %}
+                <div class="pdp-benefit" {{ block.shopify_attributes }}>
+                  <div class="pdp-benefit-icon" aria-hidden="true">✓</div>
+                  <div>
+                    <strong>{{ block.settings.title }}</strong>
+                    <p>{{ block.settings.text }}</p>
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% form 'product', product, id: product_form_id, data-sr-product-form: '' %}
+          <input type="hidden" name="id" value="{{ current_variant.id }}">
+
+          {% unless product.has_only_default_variant %}
+            {% for option in product.options_with_values %}
+              <div class="pdp-variant-block" data-sr-option-group data-option-key="option{{ forloop.index }}" data-option-name="{{ option.name | escape }}">
+                <div class="pdp-purchase-label">{{ option.name | upcase }}</div>
+                <div class="pdp-option-chips" role="radiogroup" aria-label="{{ option.name | escape }}">
+                  {% for value in option.values %}
+                    <button
+                      type="button"
+                      class="pdp-option-chip{% if option.selected_value == value %} active{% endif %}"
+                      role="radio"
+                      aria-checked="{% if option.selected_value == value %}true{% else %}false{% endif %}"
+                      data-option-value="{{ value | escape }}"
+                    >
+                      {{ value }}
+                    </button>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endfor %}
+          {% endunless %}
+
+          <div class="pdp-qty-block">
+            <div class="pdp-purchase-label" id="pdpQtyLabel-{{ section.id }}">QUANTITY</div>
+            <div class="pdp-qty" role="group" aria-labelledby="pdpQtyLabel-{{ section.id }}">
+              <button type="button" class="pdp-qty-btn" data-sr-qty-minus aria-label="Decrease quantity">−</button>
+              <input
+                type="number"
+                class="pdp-qty-input"
+                name="quantity"
+                data-sr-qty-input
+                value="1"
+                min="1"
+                max="99"
+                inputmode="numeric"
+                aria-label="Quantity"
+              >
+              <button type="button" class="pdp-qty-btn" data-sr-qty-plus aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+
+          {% if section.settings.show_pack_options %}
+            <div class="pdp-purchase-label">CHOOSE YOUR ORDER</div>
+            <div class="pdp-purchase-options" role="radiogroup" aria-label="Purchase option">
+              <button type="button" class="pdp-purchase-option active" role="radio" aria-checked="true" data-sr-purchase-option data-pack-qty="1">
+                <span class="pdp-radio"></span>
+                <span class="pdp-option-content">
+                  <strong>{{ section.settings.pack1_title }}</strong>
+                  <small>{{ section.settings.pack1_subtitle }}</small>
+                </span>
+              </button>
+              <button type="button" class="pdp-purchase-option" role="radio" aria-checked="false" data-sr-purchase-option data-pack-qty="2">
+                <span class="pdp-radio"></span>
+                <span class="pdp-option-content">
+                  <strong>{{ section.settings.pack2_title }} <span class="pdp-popular">BEST VALUE</span></strong>
+                  <small>{{ section.settings.pack2_subtitle }}</small>
+                </span>
+              </button>
+            </div>
+          {% endif %}
+
+          <button type="submit" class="pdp-add-to-cart" data-sr-add-to-cart {% unless current_variant.available %}disabled{% endunless %}>
+            <span data-sr-add-to-cart-label>
+              {% if current_variant.available %}
+                Add to cart — {{ current_variant.price | money }}
+              {% else %}
+                Sold out
+              {% endif %}
+            </span>
+            <span aria-hidden="true">→</span>
+          </button>
+        {% endform %}
+
+        {% if section.settings.show_trust_row %}
+          <ul class="pdp-trust-row">
+            <li><span>Secure checkout</span></li>
+            <li><span>Free shipping $50+</span></li>
+            <li><span>30-day returns</span></li>
+            <li><span>24/7 support</span></li>
+          </ul>
+        {% endif %}
+
+        <div class="pdp-accordions">
+          {% for block in section.blocks %}
+            {% if block.type == 'accordion' %}
+              <div class="pdp-accordion" {{ block.shopify_attributes }}>
+                <button type="button" class="pdp-accordion-button" aria-expanded="false" aria-controls="srAcc-{{ block.id }}" id="srAccBtn-{{ block.id }}">
+                  <span>{{ block.settings.heading }}</span>
+                  <span class="pdp-accordion-icon">+</span>
+                </button>
+                <div class="pdp-accordion-content" id="srAcc-{{ block.id }}">
+                  {{ block.settings.content }}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="pdp-lightbox" data-sr-lightbox hidden>
+    <button type="button" class="pdp-lightbox-close" data-sr-lightbox-close aria-label="Close">×</button>
+    <img data-sr-lightbox-image src="" alt="">
+  </div>
+
+  <div class="sticky-product-bar" data-sr-sticky-bar hidden>
+    <div class="sticky-product-inner">
+      <div class="sticky-product-info">
+        <div class="sticky-product-image">
+          {% if product.featured_media %}
+            {{ product.featured_media | image_url: width: 120 | image_tag: loading: 'lazy', alt: product.title }}
+          {% endif %}
+        </div>
+        <div class="sticky-product-details">
+          <h3>{{ product.title }}</h3>
+          <div class="sticky-product-price">
+            <span data-sr-sticky-price>{{ current_variant.price | money }}</span>
+            <span class="compare" data-sr-sticky-compare {% if compare <= price %}hidden{% endif %}>
+              {% if compare > price %}{{ compare | money }}{% endif %}
+            </span>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="sticky-add-to-cart" data-sr-sticky-add {% unless current_variant.available %}disabled{% endunless %}>
+        <span data-sr-sticky-add-label>ADD TO CART</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SR Product main",
+  "tag": "section",
+  "class": "sr-section",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Product label", "default": "DAILY WELLNESS" },
+    { "type": "checkbox", "id": "show_rating", "label": "Show rating row", "default": true },
+    { "type": "text", "id": "rating", "label": "Rating", "default": "4.9" },
+    { "type": "text", "id": "review_count", "label": "Review count text", "default": "328 Reviews" },
+    { "type": "checkbox", "id": "show_pack_options", "label": "Show Buy 1 / Buy 2", "default": true },
+    { "type": "text", "id": "pack1_title", "label": "Pack 1 title", "default": "Buy 1" },
+    { "type": "text", "id": "pack1_subtitle", "label": "Pack 1 subtitle", "default": "One-time purchase" },
+    { "type": "text", "id": "pack2_title", "label": "Pack 2 title", "default": "Buy 2" },
+    { "type": "text", "id": "pack2_subtitle", "label": "Pack 2 subtitle", "default": "Free shipping included" },
+    { "type": "checkbox", "id": "show_trust_row", "label": "Show trust row", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Key benefit",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Daily Support" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Made to complement your everyday routine." }
+      ]
+    },
+    {
+      "type": "accordion",
+      "name": "Accordion",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Benefits" },
+        { "type": "richtext", "id": "content", "label": "Content", "default": "<p>Designed to support your daily routine.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SR Product main",
+      "category": "ShopRetail",
+      "blocks": [
+        { "type": "benefit", "settings": { "title": "Daily Support", "text": "Made to complement your everyday routine." } },
+        { "type": "benefit", "settings": { "title": "Quality Ingredients", "text": "Carefully selected ingredients with purpose." } },
+        { "type": "benefit", "settings": { "title": "Simple To Use", "text": "An easy addition to your daily routine." } },
+        { "type": "benefit", "settings": { "title": "Made With Care", "text": "Thoughtfully created with quality in mind." } },
+        { "type": "accordion", "settings": { "heading": "Benefits", "content": "<p>Designed to support your daily routine with quality ingredients.</p>" } },
+        { "type": "accordion", "settings": { "heading": "Ingredients", "content": "<p>Made with carefully selected ingredients. See packaging for details.</p>" } },
+        { "type": "accordion", "settings": { "heading": "How To Use", "content": "<p>Follow the recommended serving instructions on the product packaging.</p>" } },
+        { "type": "accordion", "settings": { "heading": "Shipping & Returns", "content": "<p>Orders are carefully packed and shipped. Review your store shipping policy for terms.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

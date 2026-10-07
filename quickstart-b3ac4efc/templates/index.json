@@ -1,285 +1,243 @@
 /*
  * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
+ * ShopRetail homepage — additive SR sections.
+ * Original Horizon home backed up as index.horizon.json
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
-    "hero_jVaWmY": {
-      "type": "hero",
+    "sr_hero": {
+      "type": "sr-hero",
       "blocks": {
-        "text_YLPk4p": {
-          "type": "text",
-          "name": "t:names.heading",
-          "settings": {
-            "text": "<p>Browse our latest products</p>",
-            "text_color": "{{ settings.color_palette.background }}",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "button_H9gpTf": {
-          "type": "button",
-          "name": "t:names.button",
-          "settings": {
-            "label": "Shop all",
-            "link": "shopify://collections/all",
-            "open_in_new_tab": false,
-            "style_class": "button-custom",
-            "custom_button_background": "rgba(0,0,0,0)",
-            "custom_button_text": "{{ settings.color_palette.background }}",
-            "custom_button_border": "{{ settings.color_palette.background }}",
-            "width": "fit-content",
-            "custom_width": 100,
-            "width_mobile": "fit-content",
-            "custom_width_mobile": 100
-          },
-          "blocks": {}
-        }
+        "slide_1": { "type": "slide", "settings": {} },
+        "slide_2": { "type": "slide", "settings": {} },
+        "slide_3": { "type": "slide", "settings": {} }
       },
-      "block_order": [
-        "text_YLPk4p",
-        "button_H9gpTf"
-      ],
-      "name": "t:names.hero",
+      "block_order": ["slide_1", "slide_2", "slide_3"],
       "settings": {
-        "media_type_1": "image",
-        "media_type_2": "image",
-        "stack_media_on_mobile": false,
-        "custom_mobile_media": false,
-        "media_type_1_mobile": "image",
-        "media_type_2_mobile": "image",
-        "open_in_new_tab": false,
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "space-between",
-        "vertical_alignment": "flex-end",
-        "align_baseline": true,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "flex-end",
-        "gap": 24,
-        "section_width": "page-width",
-        "section_height": "medium",
-        "section_height_custom": 50,
-        "background_color": "rgba(0,0,0,0)",
-        "toggle_overlay": true,
-        "overlay_color": "#12121266",
-        "overlay_style": "solid",
-        "gradient_direction": "to bottom",
-        "blurred_reflection": false,
-        "reflection_opacity": 75,
-        "padding-block-start": 100,
-        "padding-block-end": 72
+        "label": "NEW ARRIVALS",
+        "heading": "Style Better.\nLive Better.",
+        "subheading": "Discover premium products, handpicked for your lifestyle.",
+        "button_label": "Shop Now",
+        "button_link": "shopify://collections/all",
+        "button2_label": "Explore Collections",
+        "button2_link": "shopify://collections/all",
+        "show_badge": true,
+        "badge_top": "Up to",
+        "badge_num": "50%",
+        "badge_bottom": "OFF"
       }
     },
-    "product_list_fa6P9H": {
-      "type": "product-list",
+    "sr_categories": {
+      "type": "sr-categories",
       "blocks": {
-        "static-header": {
-          "type": "_product-list-content",
-          "name": "t:names.header",
-          "static": true,
+        "cat_1": { "type": "category", "settings": { "title": "Women", "link": "shopify://collections/all" } },
+        "cat_2": { "type": "category", "settings": { "title": "Men", "link": "shopify://collections/all" } },
+        "cat_3": { "type": "category", "settings": { "title": "Footwear", "link": "shopify://collections/all" } },
+        "cat_4": { "type": "category", "settings": { "title": "Bags", "link": "shopify://collections/all" } },
+        "cat_5": { "type": "category", "settings": { "title": "Accessories", "link": "shopify://collections/all" } },
+        "cat_6": { "type": "category", "settings": { "title": "Home", "link": "shopify://collections/all" } },
+        "cat_7": { "type": "category", "settings": { "title": "Deals", "link": "shopify://collections/all" } }
+      },
+      "block_order": ["cat_1", "cat_2", "cat_3", "cat_4", "cat_5", "cat_6", "cat_7"],
+      "settings": {
+        "heading": "Shop by Category"
+      }
+    },
+    "sr_featured": {
+      "type": "sr-featured-products",
+      "settings": {
+        "heading": "Featured Products",
+        "products_to_show": 6,
+        "view_all_label": "View all products",
+        "view_all_link": "shopify://collections/all",
+        "show_quick_add": true
+      }
+    },
+    "sr_delivery": {
+      "type": "sr-delivery",
+      "blocks": {
+        "step_1": {
+          "type": "step",
           "settings": {
-            "content_direction": "row",
-            "vertical_on_mobile": false,
-            "horizontal_alignment": "space-between",
-            "vertical_alignment": "flex-end",
-            "align_baseline": true,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "product_list_text_YFtzcL": {
-              "type": "_product-list-text",
-              "name": "t:names.collection_title",
-              "settings": {
-                "text": "<h3>{{ closest.collection.title }}</h3>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "h4",
-                "font": "var(--font-body--family)",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "product_list_button_MWeP9V": {
-              "type": "_product-list-button",
-              "name": "t:names.product_list_button",
-              "settings": {
-                "label": "View all",
-                "open_in_new_tab": false,
-                "style_class": "link",
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "product_list_text_YFtzcL",
-            "product_list_button_MWeP9V"
-          ]
+            "title": "Order placed",
+            "text": "Checkout is encrypted. You get a confirmation as soon as your order is in."
+          }
         },
-        "static-product-card": {
-          "type": "_product-card",
-          "name": "t:names.product_card",
-          "static": true,
+        "step_2": {
+          "type": "step",
           "settings": {
-            "product_card_gap": 4,
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "product_card_gallery_677WP3": {
-              "type": "_product-card-gallery",
-              "name": "t:names.product_card_media",
-              "settings": {
-                "image_ratio": "adapt",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "product_title_YXxMTj": {
-              "type": "product-title",
-              "name": "t:names.product_title",
-              "settings": {
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "price_JQzVV4": {
-              "type": "price",
-              "name": "t:names.product_price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "type_preset": "h6",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "product_card_gallery_677WP3",
-            "product_title_YXxMTj",
-            "price_JQzVV4"
-          ]
+            "title": "Packed with care",
+            "text": "Each item is checked and packed so it arrives ready to use."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "title": "Shipped fast",
+            "text": "Carriers pick up on schedule. Tracking is sent as soon as the label prints."
+          }
+        },
+        "step_4": {
+          "type": "step",
+          "settings": {
+            "title": "At your door",
+            "text": "Most destinations receive orders within a few business days."
+          }
         }
       },
-      "name": "t:names.product_list",
+      "block_order": ["step_1", "step_2", "step_3", "step_4"],
       "settings": {
-        "collection": "all",
-        "layout_type": "grid",
-        "carousel_on_mobile": false,
-        "max_products": 8,
-        "columns": 4,
-        "mobile_columns": "2",
-        "mobile_card_size": "60cqw",
-        "columns_gap": 8,
-        "rows_gap": 24,
-        "icons_style": "arrow",
-        "icons_shape": "none",
-        "section_width": "page-width",
-        "horizontal_alignment": "flex-start",
-        "gap": 28,
-        "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "heading": "From our warehouse to your door",
+        "subheading": "Free shipping on orders $50+. Most orders leave the same or next business day."
+      }
+    },
+    "sr_benefits": {
+      "type": "sr-benefits",
+      "blocks": {
+        "b1": { "type": "benefit", "settings": { "title": "Free Shipping", "text": "On orders $50+" } },
+        "b2": { "type": "benefit", "settings": { "title": "Easy Returns", "text": "30-day hassle-free returns" } },
+        "b3": { "type": "benefit", "settings": { "title": "Secure Checkout", "text": "Encrypted payments" } },
+        "b4": { "type": "benefit", "settings": { "title": "Support", "text": "We're here to help" } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4"],
+      "settings": {}
+    },
+    "sr_process": {
+      "type": "sr-process",
+      "blocks": {
+        "p1": {
+          "type": "point",
+          "settings": {
+            "title": "Curated selection",
+            "text": "We only list products we would buy ourselves—gadgets, beauty, and everyday essentials in one shop."
+          }
+        },
+        "p2": {
+          "type": "point",
+          "settings": {
+            "title": "Quality checked",
+            "text": "Items are inspected before they ship so what you see on the page is what arrives."
+          }
+        },
+        "p3": {
+          "type": "point",
+          "settings": {
+            "title": "Packed with care",
+            "text": "Secure packaging, clear tracking, and support if anything is not right."
+          }
+        }
+      },
+      "block_order": ["p1", "p2", "p3"],
+      "settings": {
+        "heading": "A process you can trust",
+        "intro": "Every order follows the same path: curated products, a quality check, and careful packing before it leaves our warehouse."
+      }
+    },
+    "sr_reviews": {
+      "type": "sr-reviews",
+      "blocks": {
+        "r1": {
+          "type": "review",
+          "settings": {
+            "quote": "I noticed a difference within the first week. The quality is amazing and it has quickly become part of my daily routine.",
+            "name": "Sarah M.",
+            "meta": "Verified Customer",
+            "verified": true
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "quote": "The product feels premium, works exactly as described, and shipping was incredibly fast.",
+            "name": "James R.",
+            "meta": "Verified Customer",
+            "verified": true
+          }
+        },
+        "r3": {
+          "type": "review",
+          "settings": {
+            "quote": "Beautiful packaging and a really great experience from start to finish.",
+            "name": "Ava L.",
+            "meta": "Verified Customer",
+            "verified": true
+          }
+        },
+        "r4": {
+          "type": "review",
+          "settings": {
+            "quote": "Checkout was simple, delivery landed ahead of schedule, and the item matched the listing exactly.",
+            "name": "Chris P.",
+            "meta": "Verified Customer",
+            "verified": true
+          }
+        }
+      },
+      "block_order": ["r1", "r2", "r3", "r4"],
+      "settings": {
+        "eyebrow": "CUSTOMER REVIEWS",
+        "heading": "LOVED BY\nTHOUSANDS.",
+        "rating": "4.9",
+        "rating_caption": "Based on 328 reviews"
+      }
+    },
+    "sr_faq": {
+      "type": "sr-faq",
+      "blocks": {
+        "f1": {
+          "type": "item",
+          "settings": {
+            "question": "Where do you ship to?",
+            "answer": "We ship to supported destinations worldwide. Availability and delivery times are shown during checkout."
+          }
+        },
+        "f2": {
+          "type": "item",
+          "settings": {
+            "question": "How long does delivery take?",
+            "answer": "Most orders leave the same or next business day. Typical delivery is a few business days."
+          }
+        },
+        "f3": {
+          "type": "item",
+          "settings": {
+            "question": "Is shipping free?",
+            "answer": "Yes. Orders $50 and over include free shipping."
+          }
+        },
+        "f4": {
+          "type": "item",
+          "settings": {
+            "question": "Can I return my order?",
+            "answer": "Yes. Eligible products can be returned within 30 days."
+          }
+        }
+      },
+      "block_order": ["f1", "f2", "f3", "f4"],
+      "settings": {
+        "heading": "Frequently asked questions"
+      }
+    },
+    "sr_newsletter": {
+      "type": "sr-newsletter",
+      "settings": {
+        "heading": "Join Our Newsletter",
+        "text": "Get 10% off on your first order!",
+        "placeholder": "Enter your email address",
+        "button_label": "Subscribe"
       }
     }
   },
   "order": [
-    "hero_jVaWmY",
-    "product_list_fa6P9H"
+    "sr_hero",
+    "sr_categories",
+    "sr_featured",
+    "sr_delivery",
+    "sr_benefits",
+    "sr_process",
+    "sr_reviews",
+    "sr_faq",
+    "sr_newsletter"
   ]
 }

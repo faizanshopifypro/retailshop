@@ -1,0 +1,114 @@
+{{ 'sr-home.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'sr-home.js' | asset_url }}" defer></script>
+{% render 'sr-theme-tokens' %}
+
+{%- liquid
+  assign slide_list = ''
+  for block in section.blocks
+    if block.type == 'slide' and block.settings.image != blank
+      if slide_list != blank
+        assign slide_list = slide_list | append: '|||'
+      endif
+      assign slide_list = slide_list | append: block.settings.image | image_url: width: 1600
+    endif
+  endfor
+  assign slides_arr = slide_list | split: '|||'
+  assign first_slide = slides_arr | first
+-%}
+
+<div class="sr-theme" {{ section.shopify_attributes }}>
+  <section class="hero" data-sr-hero>
+    <div class="container">
+      <div class="hero-banner">
+        {% if first_slide != blank %}
+          <img
+            src="{{ first_slide }}"
+            data-slides='[{% for s in slides_arr %}{% if s != blank %}"{{ s | escape }}"{% unless forloop.last %},{% endunless %}{% endif %}{% endfor %}]'
+            alt="{{ section.settings.heading | escape }}"
+            class="hero-bg-image"
+            data-sr-hero-image
+            width="1400"
+            height="700"
+            loading="eager"
+          >
+        {% else %}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'hero-bg-image' }}
+          <img src="" alt="" class="hero-bg-image" data-sr-hero-image data-slides="[]" hidden>
+        {% endif %}
+
+        <div class="hero-content">
+          {% if section.settings.label != blank %}
+            <span class="hero-label">{{ section.settings.label }}</span>
+          {% endif %}
+          <h1 class="hero-heading">{{ section.settings.heading | newline_to_br }}</h1>
+          {% if section.settings.subheading != blank %}
+            <p class="hero-sub">{{ section.settings.subheading | newline_to_br }}</p>
+          {% endif %}
+          <div class="hero-actions">
+            {% if section.settings.button_label != blank %}
+              <a href="{{ section.settings.button_link }}" class="btn btn-primary">{{ section.settings.button_label }}</a>
+            {% endif %}
+            {% if section.settings.button2_label != blank %}
+              <a href="{{ section.settings.button2_link }}" class="btn btn-outline">{{ section.settings.button2_label }}</a>
+            {% endif %}
+          </div>
+        </div>
+
+        {% if section.settings.show_badge %}
+          <span class="discount-badge">
+            <span class="discount-top">{{ section.settings.badge_top }}</span>
+            <span class="discount-num">{{ section.settings.badge_num }}</span>
+            <span class="discount-bottom">{{ section.settings.badge_bottom }}</span>
+          </span>
+        {% endif %}
+
+        {% if slides_arr.size > 1 %}
+          <div class="carousel-dots" data-sr-hero-dots>
+            {% for s in slides_arr %}
+              {% if s != blank %}
+                <span class="dot{% if forloop.first %} active{% endif %}" data-index="{{ forloop.index0 }}"></span>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "SR Hero",
+  "tag": "section",
+  "class": "sr-section",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Eyebrow", "default": "NEW ARRIVALS" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Style Better.\nLive Better." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Discover premium products, handpicked for your lifestyle." },
+    { "type": "text", "id": "button_label", "label": "Primary button", "default": "Shop Now" },
+    { "type": "url", "id": "button_link", "label": "Primary link" },
+    { "type": "text", "id": "button2_label", "label": "Secondary button", "default": "Explore Collections" },
+    { "type": "url", "id": "button2_link", "label": "Secondary link" },
+    { "type": "checkbox", "id": "show_badge", "label": "Show discount badge", "default": true },
+    { "type": "text", "id": "badge_top", "label": "Badge top", "default": "Up to" },
+    { "type": "text", "id": "badge_num", "label": "Badge number", "default": "50%" },
+    { "type": "text", "id": "badge_bottom", "label": "Badge bottom", "default": "OFF" }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SR Hero",
+      "category": "ShopRetail",
+      "blocks": [{ "type": "slide" }, { "type": "slide" }, { "type": "slide" }]
+    }
+  ]
+}
+{% endschema %}

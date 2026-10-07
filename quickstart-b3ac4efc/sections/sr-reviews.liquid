@@ -1,0 +1,90 @@
+{{ 'sr-home.css' | asset_url | stylesheet_tag }}
+{{ 'sr-product.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'sr-home.js' | asset_url }}" defer></script>
+{% render 'sr-theme-tokens' %}
+
+<div class="sr-theme" {{ section.shopify_attributes }}>
+  <section class="reviews-section" id="reviews">
+    <div class="reviews-container">
+      <div class="reviews-top">
+        <div class="reviews-heading">
+          {% if section.settings.eyebrow != blank %}
+            <span class="reviews-eyebrow">{{ section.settings.eyebrow }}</span>
+          {% endif %}
+          <h2>{{ section.settings.heading | newline_to_br }}</h2>
+        </div>
+        <div class="reviews-rating">
+          <div class="rating-number">{{ section.settings.rating }}</div>
+          <div class="rating-stars">★★★★★</div>
+          <p>{{ section.settings.rating_caption }}</p>
+        </div>
+      </div>
+      <div class="reviews-slider-wrapper">
+        <div class="reviews-slider">
+          {% for block in section.blocks %}
+            <article class="review-card" {{ block.shopify_attributes }}>
+              <div class="review-card-top">
+                <div class="review-stars">★★★★★</div>
+                {% if block.settings.verified %}
+                  <span class="review-verified">VERIFIED</span>
+                {% endif %}
+              </div>
+              <p class="review-text">“{{ block.settings.quote }}”</p>
+              <div class="review-author">
+                <div class="review-avatar">{{ block.settings.name | slice: 0 }}</div>
+                <div>
+                  <strong>{{ block.settings.name }}</strong>
+                  <span>{{ block.settings.meta }}</span>
+                </div>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="reviews-controls">
+        <div class="reviews-progress"><div class="reviews-progress-bar"></div></div>
+        <div class="reviews-arrows">
+          <button type="button" class="review-arrow" data-sr-review-prev aria-label="Previous review">‹</button>
+          <button type="button" class="review-arrow" data-sr-review-next aria-label="Next review">›</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "SR Reviews",
+  "tag": "section",
+  "class": "sr-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "CUSTOMER REVIEWS" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "LOVED BY\nTHOUSANDS." },
+    { "type": "text", "id": "rating", "label": "Rating number", "default": "4.9" },
+    { "type": "text", "id": "rating_caption", "label": "Rating caption", "default": "Based on 328 reviews" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "The product feels premium and shipping was incredibly fast." },
+        { "type": "text", "id": "name", "label": "Name", "default": "Sarah M." },
+        { "type": "text", "id": "meta", "label": "Meta", "default": "Verified Customer" },
+        { "type": "checkbox", "id": "verified", "label": "Verified badge", "default": true }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SR Reviews",
+      "category": "ShopRetail",
+      "blocks": [
+        { "type": "review", "settings": { "name": "Sarah M.", "quote": "I noticed a difference within the first week. The quality is amazing." } },
+        { "type": "review", "settings": { "name": "James R.", "quote": "The product feels premium, works exactly as described, and shipping was incredibly fast." } },
+        { "type": "review", "settings": { "name": "Ava L.", "quote": "Beautiful packaging and a really great experience from start to finish." } }
+      ]
+    }
+  ]
+}
+{% endschema %}
